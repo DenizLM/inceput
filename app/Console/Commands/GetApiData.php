@@ -32,7 +32,7 @@ class GetApiData extends Command
         } catch (\Exception $e) {
             Log::warning($e);
         }
-
+       //am facut modificari
         if (isset($apiData)) {
             foreach ($apiData as $vehicleData) {
                 /** @var Vehicle $vehicle */

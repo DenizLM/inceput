@@ -19,7 +19,6 @@ class HomeController extends Controller
             Log::warning($e);
         }
 
-        dd(debug_print_backtrace());
         return view('welcome', compact('apiData'));
     }
 
