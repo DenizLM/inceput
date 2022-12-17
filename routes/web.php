@@ -19,4 +19,4 @@ Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/get-data', [HomeController::class, 'getData']);
 
-Route::get('/get-coordinates', [CoordinatesController::class, 'index']);
+Route::get('/get-coordinates', [CoordinatesController::class, 'index'])->name('get-coordinates');

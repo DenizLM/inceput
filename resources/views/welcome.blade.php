@@ -31,20 +31,43 @@
         </div>
 
         <script>
+            let markers = [];
+            let map = {}
             function initMap() {
                 var mapProp= {
                     center:new google.maps.LatLng(47.1585, 27.6014),
                     zoom:12,
                 };
-                var map = new google.maps.Map(document.getElementById('map'),mapProp);
+                 map = new google.maps.Map(document.getElementById('map'),mapProp);
             }
 
             async function getCoordinates() {
-                const response = await fetch('/coordinates');
-                const coordinates = await response.json();
+                const response = await fetch('{{ route('get-coordinates') }}');
+                const vehicles = await response.json();
+                console.log(vehicles);
 
-                console.log(coordinates);
+                for (let marker of markers) {
+                    marker.setMap(null);
+                }
+                markers = [];
+
+                for (let vehicle of vehicles) {
+                    var marker = new google.maps.Marker({
+                        position: {
+                            lat: parseFloat(vehicle.vehicle_lat),
+                            lng: parseFloat(vehicle.vehicle_long)
+                        },
+                        label: vehicle.vehicle_number,
+                        map: map
+                    });
+                    markers.push(marker);
+                }
             }
+
+            getCoordinates()
+            setInterval(function () {
+                getCoordinates();
+            }, 30000);
         </script>
 
 
