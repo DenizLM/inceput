@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CoordinatesController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/get-data', [HomeController::class, 'getData']);
+
+Route::get('/get-coordinates', [CoordinatesController::class, 'index']);
