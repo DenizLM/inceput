@@ -11,7 +11,7 @@ class CoordinatesController extends Controller
 {
     public function index()
     {
-        $vehicles = Vehicle::all();
+        $vehicles = Vehicle::all()->filter(fn ($vehicle) => $vehicle->vehicle_number !== '')->values();
 
         return response()->json($vehicles);
     }
