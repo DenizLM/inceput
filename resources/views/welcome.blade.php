@@ -39,13 +39,14 @@
                     zoom:12,
                 };
                  map = new google.maps.Map(document.getElementById('map'),mapProp);
+
+                getRoute();
             }
 
             async function getCoordinates() {
                 const response = await fetch('{{ route('get-coordinates') }}');
                 const vehicles = await response.json();
                 console.log(vehicles);
-
                 for (let marker of markers) {
                     marker.setMap(null);
                 }
@@ -63,7 +64,21 @@
                     markers.push(marker);
                 }
             }
+            async function getRoute() {
+                const response = await fetch('/get-route/7');
+                const vehicles = await response.json();
 
+                for (let vehicle of vehicles) {
+                    var marker = new google.maps.Marker({
+                        position: {
+                            lat: parseFloat(vehicle.lat),
+                            lng: parseFloat(vehicle.lng)
+                        },
+                        label: vehicle.vehicle_number,
+                        map: map
+                    });
+                }
+            }
             getCoordinates()
             setInterval(function () {
                 getCoordinates();

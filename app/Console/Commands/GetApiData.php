@@ -43,7 +43,7 @@ class GetApiData extends Command
                 $vehicle->update([
                     'vehicle_lat' => strlen($vehicleData['vehicleLat']) ? $vehicleData['vehicleLat'] : 0,
                     'vehicle_long' => strlen($vehicleData['vehicleLong']) ? $vehicleData['vehicleLong'] : 0,
-                    'vehicle_date' => $vehicleDate
+                    'vehicle_date' => $vehicleDate,
                 ]);
             }
         }

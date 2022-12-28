@@ -13,8 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('vehicles', function (Blueprint $table) {
-            $table->string('vehicle_number')->nullable();
+        Schema::create('vehicle_logs', function (Blueprint $table) {
+            $table->id();
+
+            $table->string('vehicle_name')->nullable();
+            $table->double('lat')->nullable();
+            $table->double('long')->nullable();
+
+            $table->timestamps();
         });
     }
 
