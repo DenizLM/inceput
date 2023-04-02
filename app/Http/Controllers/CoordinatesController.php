@@ -13,13 +13,13 @@ class CoordinatesController extends Controller
 {
     public function index()
     {
-        $vehicles = Vehicle::all()->filter(fn ($vehicle) => $vehicle->vehicle_number !== 'undefined')->values();
+       $vehicles = Vehicle::all();//->filter(fn ($vehicle) => $vehicle->vehicle_number !== 'undefined')->values();
 
         return response()->json($vehicles);
     }
 
     public function getRoute($route) {
-        $route = SetVehicleNumbers::ROUTES[$route];
+        $route = SetVehicleNumbersphp ::ROUTES[$route];
         $polyRoutes = (new GoogleMaps)->load('directions')
             ->setParam([
                 'origin' => $route['origin'],

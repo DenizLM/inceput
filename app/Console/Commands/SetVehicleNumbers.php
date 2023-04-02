@@ -55,20 +55,20 @@ class SetVehicleNumbers extends Command
             $matchingRoutes = [];
             foreach (self::ROUTES as $key => $route) {
                 $isOnRoute = true;
-//                $logs = VehicleLog::where('vehicle_name', $vehicle->vehicle_name)->get();
-//
-//                if ($logs->count()) {
-//                    foreach ($logs as $log) {
-//                        $isOnRoute = self::isLocationOnEdgeOrPath(
-//                            ['lat' => $log->lat, 'lng' => $log->long],
-//                            $polyRoutes[$key],
-//                            false,true,60
-//                        );
-//                    }
-//                    if (!$isOnRoute) {
-//                        continue;
-//                    }
-//                }
+                $logs = VehicleLog::where('vehicle_name', $vehicle->vehicle_name)->get();
+
+                if ($logs->count()) {
+                    foreach ($logs as $log) {
+                        $isOnRoute = self::isLocationOnEdgeOrPath(
+                            ['lat' => $log->lat, 'lng' => $log->long],
+                            $polyRoutes[$key],
+                            false,true,60
+                        );
+                    }
+                    if (!$isOnRoute) {
+                        continue;
+                    }
+                }
 
                 $isOnRoute = self::isLocationOnEdgeOrPath(
                     ['lat' => round($vehicle->vehicle_lat, 7), 'lng' => round($vehicle->vehicle_long, 7)],
@@ -96,8 +96,8 @@ class SetVehicleNumbers extends Command
     }
 
 
-    private static function isLocationOnEdgeOrPath($point, $poly, $closed, $geodesic, $toleranceEarth) {
-
+    private static function isLocationOnEdgeOrPath($point, $poly, $closed, $geodesic, $toleranceEarth)
+    {
         $size = count( $poly );
 
         if ($size == 0) {

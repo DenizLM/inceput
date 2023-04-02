@@ -58,7 +58,8 @@
                             lat: parseFloat(vehicle.vehicle_lat),
                             lng: parseFloat(vehicle.vehicle_long)
                         },
-                        label: vehicle.vehicle_number,
+                        //label: vehicle.vehicle_number,
+                        label: vehicle,
                         map: map
                     });
                     markers.push(marker);
