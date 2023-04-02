@@ -40,13 +40,13 @@
                 };
                  map = new google.maps.Map(document.getElementById('map'),mapProp);
 
-                getRoute();
             }
 
             async function getCoordinates() {
                 const response = await fetch('{{ route('get-coordinates') }}');
                 const vehicles = await response.json();
                 console.log(vehicles);
+
                 for (let marker of markers) {
                     marker.setMap(null);
                 }
@@ -55,29 +55,14 @@
                 for (let vehicle of vehicles) {
                     var marker = new google.maps.Marker({
                         position: {
-                            lat: parseFloat(vehicle.vehicle_lat),
-                            lng: parseFloat(vehicle.vehicle_long)
+                            lat: parseFloat(vehicle.latitude),
+                            lng: parseFloat(vehicle.longitude)
                         },
                         //label: vehicle.vehicle_number,
-                        label: vehicle,
+                        label: vehicle.route_id,
                         map: map
                     });
                     markers.push(marker);
-                }
-            }
-            async function getRoute() {
-                const response = await fetch('/get-route/7');
-                const vehicles = await response.json();
-
-                for (let vehicle of vehicles) {
-                    var marker = new google.maps.Marker({
-                        position: {
-                            lat: parseFloat(vehicle.lat),
-                            lng: parseFloat(vehicle.lng)
-                        },
-                        label: vehicle.vehicle_number,
-                        map: map
-                    });
                 }
             }
             getCoordinates()
@@ -87,6 +72,6 @@
         </script>
 
 
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuPS2Gqq1AZA6UNKJsYnV4eDRqN7UzJH8&callback=initMap"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBEN1yjz4sdeQX0GNcNDYojMd_DPclNuE&callback=initMap"></script>
     </body>
 </html>
