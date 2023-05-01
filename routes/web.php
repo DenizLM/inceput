@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CoordinatesController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MapController;
+use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [MenuController::class, 'index']);
+
+Route::get('/map', [MapController::class, 'index']);
 
 Route::get('/get-data', [HomeController::class, 'getData']);
 

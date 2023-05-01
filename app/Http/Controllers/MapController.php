@@ -9,11 +9,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class HomeController extends Controller
+class MapController extends Controller
 {
+    public function __construct(public OpenData $openData)
+    {
+    }
+
     public function index()
     {
-        return view('map');
+        $routes = $this->openData->getRoutes();
+
+        return view('map', compact('routes'));
     }
 }
 
