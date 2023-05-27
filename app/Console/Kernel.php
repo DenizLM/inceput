@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('get-api-data')->everyMinute();
+         $schedule->command('open-data:get-vehicles-data')->everyMinute();
     }
 
     /**

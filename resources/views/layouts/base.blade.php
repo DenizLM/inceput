@@ -20,7 +20,7 @@
 <header class="header-global">
 
 </header>
-<main style="max-height: 95vh;min-height: 95vh; background-color: rgba(62,84,172,0.09)">
+<main style="max-height: 95vh;min-height: 95vh; background-color: rgba(62,84,172,0.09); overflow-y: scroll">
     @yield('content')
 </main>
 

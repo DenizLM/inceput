@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="col-6">
-                <div class="bg-white rounded text-center shadow"  style="height: 20vh">
+                <div onclick="window.location.href = '/stations'" class="bg-white rounded text-center shadow"  style="height: 20vh">
                     <span class="w-75" style="height: 75px">
                         <img class="rounded" style="height: 15vh; width: auto" src="assets/img/menu/menu-station.png" alt="">
                     </span>
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="col-6">
-                <div class="bg-white rounded text-center shadow"  style="height: 20vh">
+                <div onclick="window.location.href = '/routes'" class="bg-white rounded text-center shadow"  style="height: 20vh">
                     <span class="w-75" style="height: 75px">
                         <img class="rounded" style="height: 15vh; width: auto" src="assets/img/menu/menu-route.png" alt="">
                     </span>
