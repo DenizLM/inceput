@@ -7,7 +7,6 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\StationsController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [MenuController::class, 'index']);
+Route::get('/', [MenuController::class, 'index'])->name('home');
 
 Route::get('/map', [MapController::class, 'index']);
 
@@ -34,3 +33,5 @@ Route::get('/get-coordinates', [OpenDataController::class, 'getVehiclesPositions
 Route::get('/get-stops', [OpenDataController::class, 'getStops'])->name('get-stops');
 
 Route::get('get-route/{route}', [OpenDataController::class, 'getRoute'])->name('get-route');
+
+Route::get('stats', [OpenDataController::class, 'statsIndex']);

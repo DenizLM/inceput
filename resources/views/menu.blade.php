@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="col-6">
-                <div class="bg-white rounded text-center shadow"  style="height: 20vh">
+                <div onclick="window.location.href = '/stats'"  class="bg-white rounded text-center shadow"  style="height: 20vh">
                     <span class="w-75" style="height: 75px">
                         <img class="rounded" style="height: 15vh; width: auto" src="assets/img/menu/menu-stats.png" alt="">
                     </span>

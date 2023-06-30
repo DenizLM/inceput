@@ -5,7 +5,7 @@
     <div class="bg-white" style="position: absolute; top:0; height: 8vh;width: 100%;z-index: 15;">
         <div style=" background-color: rgba(62,84,172,0.09)">
 
-            <div onclick="history.back()" style="position: absolute; top:2vh;left:5vw;">
+            <div onclick="window.location.href = '{{ route('home') }}'" style="position: absolute; top:20px;left:5vw;">
                 <i class="fa-solid fa-arrow-left fa-2x"></i>
             </div>
             <div class="text-center pt-2 row" style="height: 8vh">
@@ -22,7 +22,7 @@
             </div>
             @foreach ($stops as $stop)
                 <div class="col-12 pb-2 stop">
-                    <div class="bg-white rounded text-center shadow pt-1"  style="height: 5vh">
+                    <div class="bg-white rounded text-center shadow pt-1"  style="height: 50px">
                         <p class="fs-4 fw-bolder" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
                             {{ $stop->stop_name }}
                         </p>

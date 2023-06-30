@@ -30,12 +30,10 @@ class GetVehiclesData extends Command
 
     public function handle()
     {
-        $this->info('Getting vehicle data...');
-        $openDataVehicles = $this->openData->getVehicles();
-
-        $this->mapOpenDataVehiclesToVehicles($openDataVehicles);
-
-        $this->info('Done!');
+        while (true) {
+           $this->getData();
+           sleep(15);
+        }
     }
 
     public function mapOpenDataVehiclesToVehicles(array $openDataVehicles)
@@ -46,5 +44,15 @@ class GetVehiclesData extends Command
         });
 
        Vehicle::query()->insert($openDataVehicles);
+    }
+
+    public function getData()
+    {
+        $this->info('Getting vehicle data...');
+        $openDataVehicles = $this->openData->getVehicles();
+
+        $this->mapOpenDataVehiclesToVehicles($openDataVehicles);
+
+        $this->info('Done!');
     }
 }

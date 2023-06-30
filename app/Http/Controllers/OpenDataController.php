@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ChartsHelper;
 use App\Console\Commands\SetVehicleNumbers;
 use App\Models\Vehicle;
 use App\OpenData;
@@ -62,6 +63,17 @@ class OpenDataController extends Controller
     public function getStops()
     {
         return response()->json($this->openData->getStops()->values());
+    }
+
+    public function statsIndex()
+    {
+        $averages = ChartsHelper::getAverageSpeedAllRoutes(2);
+
+        $averageSpeedsDesc = array_slice($averages, 0, 10, true);
+
+        $averageSpeedsAsc = array_reverse(array_slice($averages, -10, 10, true), true);
+
+        return view('fun-stats', compact('averageSpeedsDesc', 'averageSpeedsAsc'));
     }
 }
 

@@ -9,7 +9,7 @@
     <div class="bg-white" style="position: absolute; top:0; height: 8vh;width: 100%;z-index: 15;">
         <div style=" background-color: rgba(62,84,172,0.09)">
             <!-- back button -->
-            <div onclick="history.back()" class="text-center" style="position: absolute; top:2vh;left:5vw;">
+            <div onclick="window.location.href = '{{ route('home') }}'" class="text-center" style="position: absolute; top:2vh;left:5vw;">
                 <i class="fa-solid fa-arrow-left fa-2x"></i>
             </div>
             <div class="text-center pt-2 row" style="height: 8vh">
@@ -150,6 +150,7 @@
         async function getCoordinates() {
             const url = new URL(window.location);
             var response = null;
+
             if (url.searchParams.has('route') && url.searchParams.has('direction')) {
                  response = await fetch('{{ route('get-coordinates') }}?route=' + url.searchParams.get('route') + '&direction=' + url.searchParams.get('direction'));
             } else {
@@ -219,7 +220,7 @@
 
         setInterval(function () {
             getCoordinates();
-        }, 60000);
+        }, 10000);
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBEN1yjz4sdeQX0GNcNDYojMd_DPclNuE&v=beta&libraries=marker&callback=initMap"></script>
