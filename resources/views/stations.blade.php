@@ -23,7 +23,7 @@
             @foreach ($stops as $stop)
                 <div class="col-12 pb-2 stop">
                     <div class="bg-white rounded text-center shadow pt-1"  style="height: 50px">
-                        <p class="fs-4 fw-bolder" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
+                        <p onclick="getRoutes('{{ $stop->stop_name }}')" class="fs-4 fw-bolder" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
                             {{ $stop->stop_name }}
                         </p>
                     </div>
@@ -33,10 +33,51 @@
     </div>
 @endsection
 
+
+<div class="modal fade" id="routesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Choose a route</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
+        var myModal = new bootstrap.Modal(document.getElementById('routesModal'), {
+            keyboard: false
+        })
+
+        async function getRoutes(param) {
+            const response = await fetch('{{ route('get-routes-from-station') }}' + '?stop_name=' + param);
+            const data = await response.json();
+
+            $('.modal-body').html('');
+
+            for (const [key, value] of Object.entries(data)) {
+                $('.modal-body').append(`
+                    <div class="col-12 pb-2 stop">
+                        <div class="bg-white rounded text-center shadow pt-1"  style="height: 50px">
+                            <p onclick="window.location.href = '/map?route=${value.route_short_name}&direction=0'" class="fs-4 fw-bolder" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
+                                ${value.route_short_name}
+                            </p>
+                        </div>
+                    </div>`
+                )
+            }
+            myModal.toggle();
+        }
+
         $(document).ready(function () {
             $('#stop_name').keyup(function () {
                 var stop_name = $('#stop_name').val();

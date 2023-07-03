@@ -7,7 +7,9 @@ use App\Models\Shape;
 use App\Models\Stop;
 use App\Models\Trip;
 use App\Models\Vehicle;
+use GeometryLibrary\SphericalUtil;
 use Illuminate\Support\Facades\Http;
+use yidas\googleMaps\Client;
 
 class OpenData
 {
@@ -38,10 +40,10 @@ class OpenData
     public function getLocalVehicles(string $routeId = null, string $tripId = null)
     {
         if ($routeId && $tripId) {
-            return Vehicle::query()->latest()->where('route_id', $routeId)->where('trip_id', $tripId)->take(100)->get()->unique('label');
+            return Vehicle::query()->latest()->where('route_id', $routeId)->where('trip_id', $tripId)->take(500)->get()->unique('label');
         }
 
-        return Vehicle::query()->latest()->take(100)->get()->unique('label');
+        return Vehicle::query()->latest()->take(500)->where('route_id' , '!=', '')->where('trip_id' , '!=', '')->get()->unique('label');
     }
 
     public function getRoutes()
@@ -154,5 +156,27 @@ class OpenData
 
             $trip->stops()->attach($stop, ['sequence' => $sequence]);
         }
+    }
+
+
+    public function getDistanceFromShape($shapes)
+    {
+        $length = 0;
+        $total = $shapes->count();
+        foreach ($shapes as $key => $shape) {
+            if ($key == $total - 1) {
+                break;
+            }
+            $length += SphericalUtil::computeDistanceBetween(['lat' => $shape['shape_pt_lat'],'lng' => $shape['shape_pt_lon']], ['lat' => $shapes[$key +1]['shape_pt_lat'],'lng' => $shapes[$key +1]['shape_pt_lon']]);
+        }
+
+        return $length / 1000;
+    }
+
+    public function getRouteFromTrip ($trip)
+    {
+        $route = Route::query()->where('route_id', $trip['route_id'])->first();
+
+        return $route;
     }
 }

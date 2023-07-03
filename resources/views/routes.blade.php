@@ -21,7 +21,7 @@
                 <input type="text" class="form-control" id="route_name" aria-describedby="route_name">
             </div>
             @foreach ($routes as $route)
-                <div onclick="window.location.href = '/map?route={{ $route->route_short_name }}&direction=1'" class="col-12 pb-2 routes">
+                <div onclick="window.location.href = '/map?route={{ $route->route_short_name }}&direction=0'" class="col-12 pb-2 routes">
                     <div class="bg-white rounded text-center shadow pt-1"  style="height: 50px">
                         <p class="fs-4 fw-bolder" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
                             {{ $route->route_short_name }}

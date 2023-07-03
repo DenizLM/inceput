@@ -26,6 +26,8 @@ Route::get('/stations', [StationsController::class, 'index']);
 
 Route::get('/routes', [RoutesController::class, 'index']);
 
+Route::get('/routes-from-station', [OpenDataController::class, 'getRoutesFromStation'])->name('get-routes-from-station');
+
 Route::get('/get-data', [HomeController::class, 'getData']);
 
 Route::get('/get-coordinates', [OpenDataController::class, 'getVehiclesPositions'])->name('get-coordinates');

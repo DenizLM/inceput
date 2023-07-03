@@ -12,13 +12,33 @@
             </div>
         </div>
     </div>
-    <div id="resizable_desc" style="height: 370px;border:1px solid gray;margin-top: 8vh">
-        <div id="chart_container_average_speed_desc" style="height: 100%; width: 100%;"></div>
+    <div class="p-4">
+        <select class="form-select mb-2" id="stats_select" style="margin-top: 9vh">
+            <option value="" selected>Select the stats you want to be displayed</option>
+            <option value="speed">Average speed</option>
+            <option value="vehicles_count">Number of vehicles</option>
+            <option value="distance">Distance traveled</option>
+        </select>
+
+        <div class="speed py-2 chart" id="resizable_desc" style="height: 370px;border:1px solid gray">
+            <div id="chart_container_average_speed_desc" style="height: 100%; width: 100%;"></div>
+        </div>
+
+        <div class="speed py-2 chart" id="resizable_asc" style="height: 370px;border:1px solid gray;margin-top: 10px">
+            <div id="chart_container_average_speed_asc" style="height: 100%; width: 100%;"></div>
+        </div>
+
+        <div class="vehicles_count py-2 chart" id="busses_count" style="height: 340px;border: 1px solid grey">
+            <div id="chart_container_busses_count" style="height: 100%; width: 100%;"></div>
+        </div>
+
+        <div class="vehicles_count py-2 chart" id="tram_count" style="height: 340px;border: 1px solid grey">
+            <div id="chart_container_tram_count" style="height: 100%; width: 100%;"></div>
+        </div>
+
+        <div class="distance chart" id="distance_chart_container" style="height: 2500px; width: 100%;"></div>
     </div>
 
-    <div id="resizable_asc" style="height: 370px;border:1px solid gray;margin-top: 10px">
-        <div id="chart_container_average_speed_asc" style="height: 100%; width: 100%;"></div>
-    </div>
 @endsection
 
 @section('scripts')
@@ -28,6 +48,96 @@
     <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
     <script>
         $(function () {
+            var distanceChart = new CanvasJS.Chart("distance_chart_container", {
+                theme: "light2",
+                animationEnabled: true,
+                title: {
+                    text: "Distance traveled"
+                },
+                axisY2: {
+                    title: "Distance in km",
+                    titleFontSize: 14,
+                    includeZero: true,
+                    suffix: "km",
+                },
+                axisX: {
+                    margin: 10,
+                    labelPlacement: "inside",
+                    tickPlacement: "inside"
+                },
+                data: [{
+                    type: "bar",
+                    yValueFormatString: "#.###km",
+                    indexLabel: "{y}",
+                    dataPoints: [
+                        @foreach ($distances as $key => $distance)
+                            { label: "{{ $distance['route_label'] }}", y: {{ $distance['length'] }} },
+                        @endforeach
+                    ]
+                }]
+            });
+            distanceChart.render();
+
+            var optionsBussesCount = {
+                animationEnabled: true,
+                theme: "light2",
+                title:{
+                    text: "Number of vehicles"
+                },
+                axisX: {
+                    title: "Bus number"
+                },
+                data: [{
+                    type: "column",
+                    dataPoints: [
+                        @foreach ($bussesCount as $key => $vehicles)
+                            { label: "{{ $key }}", y: {{ $vehicles }} },
+                        @endforeach
+                    ]
+                }]
+            };
+
+            var optionsTramCount = {
+                animationEnabled: true,
+                theme: "light2",
+                title:{
+                    text: "Number of vehicles"
+                },
+                axisX: {
+                    title: "Tram number"
+                },
+                data: [{
+                    type: "column",
+                    dataPoints: [
+                        @foreach ($tramsCount as $key => $vehicles)
+                            { label: "{{ $key }}", y: {{ $vehicles }} },
+                        @endforeach
+                    ]
+                }]
+            };
+
+            $("#busses_count").resizable({
+                create: function (event, ui) {
+                    //Create chart.
+                    $("#chart_container_busses_count").CanvasJSChart(optionsBussesCount);
+                },
+                resize: function (event, ui) {
+                    //Update chart size according to its container size.
+                    $("#chart_container_busses_count").CanvasJSChart(optionsBussesCount);
+                }
+            });
+
+            $("#tram_count").resizable({
+                create: function (event, ui) {
+                    //Create chart.
+                    $("#chart_container_tram_count").CanvasJSChart(optionsTramCount);
+                },
+                resize: function (event, ui) {
+                    //Update chart size according to its container size.
+                    $("#chart_container_tram_count").CanvasJSChart(optionsTramCount);
+                }
+            });
+
             var optionsDesc = {
                 animationEnabled: true,
                 theme: "light2",
@@ -93,6 +203,23 @@
                 resize: function (event, ui) {
                     //Update chart size according to its container size.
                     $("#chart_container_average_speed_asc").CanvasJSChart().render();
+                }
+            })
+
+            $('.chart').hide();
+
+            $('#stats_select').change(function(){
+                $('.chart').hide();
+                if($(this).val() == 'speed') {
+                    $('.chart.speed').show();
+                }
+
+                if($(this).val() == 'vehicles_count') {
+                    $('.chart.vehicles_count').show();
+                }
+
+                if($(this).val() == 'distance') {
+                    $('.chart.distance').show();
                 }
             })
         });
